@@ -8,7 +8,10 @@
   <body>
     <h1>Window Opener and Message Sender</h1>
     <p>Click "Open Window" to open the Adobe URL in a new window and automatically send the message after 10 seconds.</p>
-    <button id="openButton">Open Window</button>
+    <form action="">
+      <input type="text" name="url" id="url" placeholder="Page URL">
+      <button id="openButton">Open Window</button>
+    </form>
 
     <script>
       let childWindow = null;
@@ -38,7 +41,7 @@
       });
 
       document.getElementById('openButton').addEventListener('click', () => {
-        childWindow = window.open('https://www.adobe.com/acrobat/business/sign.html?fromES=true#mini-plans-web-cta-acrobat-pro-teams-card', '_blank');
+        childWindow = window.open(document.getElementById('url').value, '_blank');
         if (childWindow) {
           setTimeout(() => {
             if (childWindow && !childWindow.closed) {
